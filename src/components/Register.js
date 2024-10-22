@@ -1,8 +1,10 @@
 // src/pages/Register.js
 import React, { useState } from 'react';
 import useAuth from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import shoppingImg from "../assets/shopping.png";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const { register } = useAuth();
@@ -11,16 +13,26 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
     try {
-      register(name, email, password);
-      alert('Registration successful!');
+      await register(name, email, password);
+      toast.success('Registration successful! Redirecting to login...');
+      // Clear the fields
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      // Redirect to login page after a delay
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (error) {
       setError(error.message);
     }
@@ -98,6 +110,19 @@ const Register = () => {
           </p>
         </div>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer 
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
