@@ -32,7 +32,7 @@ const initialState = {
       imageUrl: product4,
     },
     {
-      id: 4,
+      id: 5, // Changed this ID to be unique
       name: "Sports Sneaker",
       price: 145,
       imageUrl: product5,
@@ -43,33 +43,57 @@ const initialState = {
 
 const productSlice = createSlice({
   name: "products",
-  initialState,
+  initialState, // Using the defined initialState variable here
   reducers: {
-    addToCart: (state, action) => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      if (!user) return; // Do nothing if no user is logged in
-
-      const existingItem = state.cart.find(
-        (item) => item.id === action.payload.id
-      );
-      if (existingItem) {
-        existingItem.quantity += 1; // Increment quantity
-      } else {
-        state.cart.push({ ...action.payload, quantity: 1 }); // Add new item
-      }
-      localStorage.setItem(`cart_${user.email}`, JSON.stringify(state.cart));
-    },
+    // Loading items from local storage
     loadCartFromLocalStorage: (state) => {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {
         const cart = JSON.parse(localStorage.getItem(`cart_${user.email}`));
         if (cart) {
-          state.cart = cart; // Load user-specific cart
+          state.cart = cart.map((item) => ({
+            ...item,
+            quantity: item.quantity || 1,
+          }));
         }
+      }
+    },
+
+    // Update quantity for a cart item
+    updateCartQuantity: (state, action) => {
+      const { id, type } = action.payload;
+      const existingItem = state.cart.find((item) => item.id === id);
+      if (existingItem) {
+        if (type === "increase") {
+          existingItem.quantity += 1;
+        } else if (type === "decrease" && existingItem.quantity > 1) {
+          existingItem.quantity -= 1;
+        }
+      }
+      // Save updated cart to localStorage
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        localStorage.setItem(`cart_${user.email}`, JSON.stringify(state.cart));
+      }
+    },
+    // Remove item from the cart
+    removeItemFromCart: (state, action) => {
+      const id = action.payload;
+      state.cart = state.cart.filter((item) => item.id !== id);
+      // Save updated cart to localStorage
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        localStorage.setItem(`cart_${user.email}`, JSON.stringify(state.cart));
       }
     },
   },
 });
 
-export const { addToCart, loadCartFromLocalStorage } = productSlice.actions;
+export const {
+  loadCartFromLocalStorage,
+  updateCartQuantity,
+  removeItemFromCart,
+  clearCart,
+} = productSlice.actions;
+
 export default productSlice.reducer;

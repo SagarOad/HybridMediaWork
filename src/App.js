@@ -1,3 +1,4 @@
+// App.js
 import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -8,12 +9,14 @@ import {
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
+import Cart from "./components/Cart";
 import useAuth from "./hooks/useAuth";
 import { store } from "./redux/store";
 import { Provider, useDispatch } from "react-redux";
 import { loadCartFromLocalStorage } from './redux/productSlice';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MainLayout from "./components/MainLayout"; // Import the new MainLayout component
 
 // A simple ProtectedRoute component to manage authentication
 const ProtectedRoute = ({ element }) => {
@@ -46,7 +49,23 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route
             path="/dashboard"
-            element={<ProtectedRoute element={<Dashboard />} />}
+            element={
+              <ProtectedRoute element={
+                <MainLayout onLogout={() => { /* Handle logout logic here */ }} >
+                  <Dashboard />
+                </MainLayout>
+              } />
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute element={
+                <MainLayout onLogout={() => { /* Handle logout logic here */ }} >
+                  <Cart />
+                </MainLayout>
+              } />
+            }
           />
         </Routes>
       </Router>

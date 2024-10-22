@@ -1,3 +1,4 @@
+// Dashboard.js
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, loadCartFromLocalStorage } from "../redux/productSlice";
@@ -10,6 +11,9 @@ import SecondBanner from "../assets/secondBanner.png";
 import { AiFillStar } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
+import Sidebar from "./Sidebar"; // Import Sidebar component
+import { NavLink } from "react-router-dom";
+
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -53,75 +57,28 @@ const Dashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className="w-64 bg-white shadow-md">
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold text-gray-700">Mark Wood</h2>
-          <p className="text-sm text-gray-500">marki@demo.com</p>
-        </div>
-        <nav className="mt-10">
-          <a
-            href="#"
-            className="block py-2.5 px-4 rounded transition duration-200 hover:bg-purple-700 hover:text-white"
-          >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="block py-2.5 px-4 rounded transition duration-200 hover:bg-purple-700 hover:text-white"
-          >
-            Products
-          </a>
-          <a
-            href="#"
-            className="block py-2.5 px-4 rounded transition duration-200 hover:bg-purple-700 hover:text-white"
-          >
-            Notifications
-          </a>
-          <a
-            href="#"
-            className="block py-2.5 px-4 rounded transition duration-200 hover:bg-purple-700 hover:text-white"
-          >
-            Analytics
-          </a>
-          <a
-            href="#"
-            className="block py-2.5 px-4 rounded transition duration-200 hover:bg-purple-700 hover:text-white"
-          >
-            Inventory
-          </a>
-          <button
-            href="#"
-            className="block py-2.5 px-4 mt-10 text-red-500 border-t border-gray-200"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </nav>
-      </div>
-
       {/* Main Content */}
       <div className="flex-1 p-10 text-gray-800">
         <div>
-          <div className=" flex justify-end items-center">
-            <button className=" bg-white font-medium p-2 text-[18px] flex justify-center items-center">
+          <div className="flex justify-end items-center">
+            <NavLink to="/cart" className="bg-white font-medium p-2 text-[18px] flex justify-center items-center">
               <span>
-                <FiShoppingCart size={22} className=" mr-2" />
+                <FiShoppingCart size={22} className="mr-2" />
               </span>
               My Cart
-            </button>
+            </NavLink>
           </div>
-          <div className=" grid grid-cols-12">
-            <div className=" col-span-8">
+          <div className="grid grid-cols-12">
+            <div className="col-span-8">
               <img
                 src={MainBanner}
-                className=" p-2 h-full w-full object-cover rounded-[40px]"
+                className="p-2 h-full w-full object-cover rounded-[40px]"
               />
             </div>
-            <div className=" col-span-4">
+            <div className="col-span-4">
               <img
                 src={SecondBanner}
-                className=" p-2 h-full w-full object-cover rounded-[40px]"
+                className="p-2 h-full w-full object-cover rounded-[40px]"
               />
             </div>
           </div>
@@ -130,8 +87,8 @@ const Dashboard = () => {
         {/* Products Grid */}
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {products.map((product) => (
-            <div key={product.id} className="bg-white shadow-md rounded-lg ">
-              <div className=" h-55">
+            <div key={product.id} className="bg-white shadow-md rounded-lg">
+              <div className="h-55">
                 <img
                   src={product.imageUrl}
                   alt={product.name}
@@ -152,20 +109,20 @@ const Dashboard = () => {
 
               <div className="p-4">
                 <div className="flex justify-between items-center">
-                  <div className="">
+                  <div>
                     <h3 className="text-md font-bold">
                       {product.name.toUpperCase()}
                     </h3>
                   </div>
-                  <div className="">
-                    <span className=" font-bold text-lg flex items-center">
+                  <div>
+                    <span className="font-bold text-lg flex items-center">
                       <FaHeart className="mr-1 text-[#89089f]" /> $
                       {product.price.toFixed(2)}
                     </span>
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-3">
-                  <p className=" text-md mt-1 font-medium italic">
+                  <p className="text-md mt-1 font-medium italic">
                     {product.description || "Running"}
                   </p>
                   <div className="flex">

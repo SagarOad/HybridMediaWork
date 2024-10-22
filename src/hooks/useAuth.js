@@ -28,18 +28,22 @@ const useAuth = () => {
     };
   
     const logout = () => {
-      // Get the current user before clearing the cart
+      // Get the current logged-in user before logging out
       const user = JSON.parse(localStorage.getItem('user'));
+    
       if (user) {
-        // Save the current session's cart back to the user-specific cart key
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        localStorage.setItem(`cart_${user.email}`, JSON.stringify(cart));
-        
-        // Now clear the session cart and user
-        localStorage.removeItem('cart'); // Clear global cart
-        localStorage.removeItem('user'); // Clear logged-in user session
+        // Retrieve the current session's cart from localStorage (global cart)
+        const sessionCart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+        // Save the current cart back to the user-specific cart in localStorage
+        localStorage.setItem(`cart_${user.email}`, JSON.stringify(sessionCart));
+    
+        // Clear the session-specific cart and user information
+        localStorage.removeItem('cart'); // Clear the session cart data
+        localStorage.removeItem('user'); // Clear the session user data
       }
     };
+    
   
     const isAuthenticated = () => !!localStorage.getItem('user');
   
