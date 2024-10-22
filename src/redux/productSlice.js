@@ -32,7 +32,7 @@ const initialState = {
       imageUrl: product4,
     },
     {
-      id: 5, // Changed this ID to be unique
+      id: 5,
       name: "Sports Sneaker",
       price: 145,
       imageUrl: product5,
@@ -43,9 +43,8 @@ const initialState = {
 
 const productSlice = createSlice({
   name: "products",
-  initialState, // Using the defined initialState variable here
+  initialState,
   reducers: {
-    // Loading items from local storage
     loadCartFromLocalStorage: (state) => {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {
@@ -59,7 +58,6 @@ const productSlice = createSlice({
       }
     },
 
-    // Update quantity for a cart item
     updateCartQuantity: (state, action) => {
       const { id, type } = action.payload;
       const existingItem = state.cart.find((item) => item.id === id);
@@ -70,17 +68,14 @@ const productSlice = createSlice({
           existingItem.quantity -= 1;
         }
       }
-      // Save updated cart to localStorage
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {
         localStorage.setItem(`cart_${user.email}`, JSON.stringify(state.cart));
       }
     },
-    // Remove item from the cart
     removeItemFromCart: (state, action) => {
       const id = action.payload;
       state.cart = state.cart.filter((item) => item.id !== id);
-      // Save updated cart to localStorage
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {
         localStorage.setItem(`cart_${user.email}`, JSON.stringify(state.cart));

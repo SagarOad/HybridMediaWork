@@ -14,12 +14,12 @@ const ProductCard = ({ product }) => {
       />
       <div className="flex justify-between mt-2">
         <button
-          className="bg-black text-white text-xs font-semibold px-6 py-2 rounded-md"
+          className="bg-black text-white text-xs font-semibold px-4 py-2 md:px-6 md:py-3 rounded-md"
           onClick={() => dispatch(addToCart(product))}
         >
           ADD TO CART
         </button>
-        <button className="bg-purple-700 text-white text-xs font-semibold px-6 py-2 rounded-md">
+        <button className="bg-purple-700 text-white text-xs font-semibold px-4 py-2 md:px-6 md:py-3 rounded-md">
           QUICK VIEW
         </button>
       </div>

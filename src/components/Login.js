@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import shoppingImg from "../assets/shopping.png";
 
 const Login = () => {
   const { login } = useAuth();
@@ -22,24 +23,24 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-purple-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-purple-100">
       {/* Left Section */}
-      <div className="w-1/2 flex items-center justify-center bg-gradient-to-r from-purple-500 to-purple-700">
+      <div className="w-full md:w-1/2 flex items-center justify-center bg-gradient-to-r from-purple-500 to-purple-700">
         <div className="text-white text-center px-8">
           <img
-            src="/welcome-image.svg" // You can replace this with your actual image
+            src={shoppingImg}
             alt="Welcome"
-            className="w-64 mx-auto mb-6"
+            className="w-[300px] md:w-[400px] mx-auto mb-6"
           />
-          <h1 className="text-3xl font-bold">Welcome to our shop</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">Welcome to our shop</h1>
           <p className="mt-2">Purchase imported shoes</p>
         </div>
       </div>
 
       {/* Right Section */}
-      <div className="w-1/2 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-          <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+      <div className="w-full md:w-1/2 flex items-center justify-center">
+        <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-md">
+          <h2 className="text-xl md:text-2xl font-bold text-center mb-6">Login</h2>
           {error && <p className="text-red-500 text-center">{error}</p>}
           <form onSubmit={handleLogin}>
             <div className="mb-4">
